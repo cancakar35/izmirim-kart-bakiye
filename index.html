@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="İzmirim Kart, İzmirim Kart bakiye, İzmirim Kart Bakiye Sorgulama, Eshot Bakiye Sorgulama, Eshot Bakiye, Eshot, Kentkart, Kentkart bakiye">
+    <meta name="author" content="Can CAKAR">
+    <title>İzmirim Kart Bakiye Sorgulama</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="site-logo">
+        <img src="logo-izmirim-kart.png" alt="izmirim-kart-logo">
+    </div>
+    <div class="site-header">
+        <h1>Bakiye Sorgulama</h1>
+    </div>
+    <div class="kart-inp-container" id="kartInputContainer">
+        <div class="kart-inp-area">
+            <input type="text" inputmode="numeric" id="kartInput" class="kart-inp" placeholder="İzmirim Kart Numarası" autocomplete="off" maxlength="13">
+            <button class="kart-inp-btn" id="kartInpBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                    <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="kart-data-container" id="kartDataContainer">
+            <div class="kart-balance" id="kartBalance"></div>
+            <div class="kart-pending-balance" id="pendinBalanceContainer">
+                <span>BEKLEYEN YÜKLEME</span>
+                <span id="kartPendingBalance"></span>
+            </div>
+            <div class="kart-other-info">
+                <div>
+                    <span>Son İşlem</span>
+                    <span id="kartLastUseDate"></span>
+                </div>
+                <div>
+                    <span>Son Harcanan</span>
+                    <span id="kartLastUsePrice"></span>
+                </div>
+                <div>
+                    <span>Son Yükleme</span>
+                    <span id="kartLastLoadDate"></span>
+                </div>
+                <div>
+                    <span>Son Yüklenen Tutar</span>
+                    <span id="kartLastLoadPrice"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>
