@@ -1,5 +1,4 @@
 "use strict";
-const kartInpBtn = document.getElementById("kartInpBtn");
 const kartInput = document.getElementById("kartInput");
 const kartInpContainer = document.getElementById("kartInputContainer");
 const kartDataContainer = document.getElementById("kartDataContainer");
@@ -25,56 +24,46 @@ const isModifierKey = (event) => {
 
 
 function getData() {
-    fetch("https://openapi.izmir.bel.tr/api/iztek/bakiyesorgulama/"+kartInput.value.replace("-",""))
-        .then(response=>response.json())
-        .then(data=>{
-            if (data.HataVarMi) {
-                alert("Hatalı Giriş");
-                return;
+    kartDataContainer.style.display = "block";
+    fetch("https://openapi.izmir.bel.tr/api/iztek/bakiyesorgulama/"+kartInput.value.replace("-","")).then(response=>response.json()).then(data=>{
+        if (data.HataVarMi) {
+            alert("Hatalı Giriş");
+            return;
+        }
+        let bakiye = data.UlasimKartBakiyesi;
+        if (bakiye.BekleyenYuklemeler.length) {
+            let pendingTotal = 0;
+            for (const yukleme of bakiye.BekleyenYuklemeler) {
+                pendingTotal += parseFloat(yukleme.YuklenenTutar);
             }
-            let bakiye = data.UlasimKartBakiyesi;
-            if (bakiye.BekleyenYuklemeler.length) {
-                let pendingTotal = 0;
-                for (const yukleme of bakiye.BekleyenYuklemeler) {
-                    pendingTotal += parseFloat(yukleme.YuklenenTutar);
-                }
-                pendinBalanceContainer.style.display = "flex";
-                kartPendingBalance.innerHTML = pendingTotal + " TL";
-            }
-            else {
-                pendinBalanceContainer.style.display = "none";
-            }
-            kartBalance.innerHTML = bakiye.MevcutBakiye + " TL";
-            kartLastUseDate.innerHTML = bakiye.SonIslemTarihi;
-            kartLastUsePrice.innerHTML = bakiye.SonHarcananTutar + " TL";
-            kartLastLoadDate.innerHTML = bakiye.SonYuklemeTarihi;
-            kartLastLoadPrice.innerHTML = bakiye.SonYuklenenTutar + " TL";
-            kartDataContainer.style.display = "block";
-        });
+            pendinBalanceContainer.style.display = "flex";
+            kartPendingBalance.innerHTML = pendingTotal + " TL";
+        }
+        else {
+            pendinBalanceContainer.style.display = "none";
+        }
+        kartBalance.innerHTML = bakiye.MevcutBakiye + " TL";
+        kartLastUseDate.innerHTML = bakiye.SonIslemTarihi;
+        kartLastUsePrice.innerHTML = bakiye.SonHarcananTutar + " TL";
+        kartLastLoadDate.innerHTML = bakiye.SonYuklemeTarihi;
+        kartLastLoadPrice.innerHTML = bakiye.SonYuklenenTutar + " TL";
+    });
 }
 
-
-kartInpBtn.addEventListener("click", function (event) {
-    if (!isActive && kartInput.value.length > 10) {
-        kartInpContainer.style.transform = "translate(-50%, -200px)";
-        isActive = true;
-    }
-    getData();
-});
 
 kartInput.addEventListener("keydown", function (event) {
     if (!(event.key >= 0 && event.key <= 9) && !isModifierKey(event)) {
         event.preventDefault();
     }
-    if (event.key === 'Enter' && event.target.value.length > 10) {
+});
+
+kartInput.addEventListener("keyup", function (event) {
+    event.target.value = event.target.value.replace(/[^0-9]/g, '').replace(/^(\d{5})(\d{1,5})$/, '$1-$2').replace(/^(\d{5})(\d{5})(\d{1})$/, '$1-$2-$3');
+    if (event.target.value.length == 13){
         if (!isActive) {
             kartInpContainer.style.transform = "translate(-50%, -200px)";
             isActive = true;
         }
         getData();
     }
-});
-
-kartInput.addEventListener("keyup", function (event) {
-    event.target.value = event.target.value.replace(/[^0-9]/g, '').replace(/^(\d{5})(\d{1,5})$/, '$1-$2').replace(/^(\d{5})(\d{5})(\d{1})$/, '$1-$2-$3');
 });
