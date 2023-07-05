@@ -11,6 +11,11 @@ body {
     font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
+.site-logo img {
+    width: 20%;
+    height: auto;
+}
+
 .kart-inp-container {
     display: flex;
     flex-direction: column;
